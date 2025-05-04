@@ -5,7 +5,8 @@ include '../includes/functions.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Display login form
+    // Capture the current page URL
+    $redirectUrl = urlencode($_SERVER['REQUEST_URI']);
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,6 +69,7 @@ if (!isset($_SESSION['user_id'])) {
                         <?php endif; ?>
 
                         <form action="login.php" method="POST">
+                            <input type="hidden" name="redirect" value="<?php echo $redirectUrl; ?>">
                             <div class="form-group">
                                 <label for="username"><i class="fas fa-user mr-2"></i>Username</label>
                                 <input type="text" class="form-control" id="username" name="username"
@@ -148,22 +150,6 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-    function togglePassword() {
-        const passwordField = document.getElementById('password');
-        const icon = document.querySelector('.password-toggle i');
-
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordField.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-    </script>
 </body>
 
 </html>
@@ -173,7 +159,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Fetch user information
 $user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT username, email, created_at FROM users WHERE id = :user_id");
+$stmt = $conn->prepare("SELECT username FROM users WHERE id = :user_id");
 $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);

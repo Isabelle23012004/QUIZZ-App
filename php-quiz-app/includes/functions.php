@@ -56,4 +56,30 @@ function getQuestionsByQuizId($quiz_id) {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function authenticateUser($username, $password) {
+    global $conn;
+
+    // Prepare the SQL statement to fetch the user by username
+    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+
+    // Fetch the user record
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if the user exists
+    if (!$user) {
+        echo json_encode(['status' => 'error', 'message' => 'User not found']);
+        exit();
+    }
+
+    // Compare the plain text password
+    if ($password !== $user['password']) {
+        echo json_encode(['status' => 'error', 'message' => 'Password mismatch']);
+        exit();
+    }
+
+    return $user;
+}
 ?>
