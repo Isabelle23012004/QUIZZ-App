@@ -1,14 +1,18 @@
 <?php
 
-class HomeController {
-    protected $model;
+namespace App\Controllers;
 
-    public function __construct() {
-        $this->model = new HomeModel();
+class HomeController {
+    public function index() {
+        include '../app/Views/home.php';
     }
 
-    public function index() {
-        $data = $this->model->getData();
-        include '../app/Views/home.php';
+    public function quiz() {
+        include '../app/Views/quiz.php'; // Render the quiz page
+    }
+
+    public function submitQuiz() {
+        // Handle quiz submission logic here
+        echo "Quiz submitted!";
     }
 }

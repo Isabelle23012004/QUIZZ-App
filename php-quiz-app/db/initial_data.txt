@@ -1,0 +1,26 @@
+-- Insert initial users
+INSERT INTO users (username, password) VALUES
+('admin', 'admin'), -- Password: admin
+('user1', 'user1'), -- Password: user1
+('user2', 'user2'); -- Password: user2
+
+-- Insert initial quizzes
+INSERT INTO quizzes (title) VALUES
+('General Knowledge Quiz'),
+('Science Quiz'),
+('History Quiz');
+
+-- Insert initial questions for the quizzes
+INSERT INTO questions (quiz_id, question_text, correct_answer) VALUES
+(1, 'What is the capital of France?', 'Paris'),
+(1, 'Who wrote "Hamlet"?', 'William Shakespeare'),
+(2, 'What is the chemical symbol for water?', 'H2O'),
+(2, 'What planet is known as the Red Planet?', 'Mars'),
+(3, 'Who was the first President of the United States?', 'George Washington'),
+(3, 'In which year did World War II end?', '1945');
+
+-- Insert initial results for testing
+INSERT INTO results (user_id, quiz_id, score) VALUES
+(1, 1, 2), -- Admin scored 2 in General Knowledge Quiz
+(2, 2, 1), -- User1 scored 1 in Science Quiz
+(3, 3, 0); -- User2 scored 0 in History Quiz
